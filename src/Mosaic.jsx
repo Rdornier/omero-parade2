@@ -1,49 +1,112 @@
+import { useState, useEffect } from "react";
 
-import { useState, useEffect } from 'react'
+import {
+  coordinator,
+  Selection,
+  DuckDBWASMConnector,
+} from "@uwdata/mosaic-core";
+import { loadCSV } from "@uwdata/mosaic-sql";
+import * as vg from "@uwdata/vgplot";
 
-import { coordinator, Selection, DuckDBWASMConnector } from '@uwdata/mosaic-core';
-import { loadCSV } from '@uwdata/mosaic-sql';
-import * as vg from '@uwdata/vgplot';
-
-
-import { Count } from './TableCount';
-
+import { Count } from "./TableCount";
+import { ScatterPlot } from "./ScatterPlot";
+import { AddPlot } from "./AddPlot";
 
 const TABLE_NAME = "my_table";
 
+// const defaultSource = `https://raw.githubusercontent.com/will-moore/ome2024-ngff-challenge/refs/heads/biofile_finder_csvs/samples/idr0010_images_bff.csv`;
+const defaultSource = `${window.location}omero_table.csv`
 
 function Mosaic() {
+  const [selection, setSelection] = useState(null);
+  const [plots, setPlots] = useState([]);
 
-    const [selection, setSelection] = useState(null);
+  function addPlot(plotConfig) {
+    setPlots([...plots, plotConfig]);
+  }
 
-    // when this component mounts, set up the mosaic environment...
-    useEffect(() => {
-        async function setupMosaic() {
-            console.log("Setting up Mosaic...");
-            // set up DuckDB connector
-            const wasm = new DuckDBWASMConnector({ log: false });
-            coordinator().databaseConnector(wasm);
-    
-            await vg.coordinator().exec([loadCSV(TABLE_NAME, `${window.location}omero_table.csv`)]);
+  function removePlot(plotId) {
+    setPlots(plots.filter((p) => p.plotId !== plotId));
+  }
 
-            const newSelection = Selection.intersect();
-            // trigger a re-render with the new selection
-            setSelection(newSelection);
+  // when this component mounts, set up the mosaic environment...
+  useEffect(() => {
+    async function setupMosaic() {
+      console.log("Setting up Mosaic...");
 
-            // debug - html table output
-            let html = vg.table({from: TABLE_NAME, filterBy: newSelection, height: 300, width: 1000});
-            console.log("html:", html);
-        }
-        setupMosaic();
-    }, []);
+      // Use ?query parameter "source" to get Table URL...
+      const params = new URLSearchParams(window.location.search);
+      const TABLE_URL = params.get("source") || defaultSource;
+
+      // set up DuckDB connector
+      const wasm = new DuckDBWASMConnector({ log: false });
+      coordinator().databaseConnector(wasm);
+
+      await vg
+        .coordinator()
+        .exec([loadCSV(TABLE_NAME, TABLE_URL)]);
+
+      const newSelection = Selection.intersect();
+      // trigger a re-render with the new selection
+      setSelection(newSelection);
+
+      // debug - html table output
+      let html = vg.table({
+        from: TABLE_NAME,
+        filterBy: newSelection,
+        height: 300,
+        width: 1000,
+      });
+      console.log("html:", html);
+    }
+    setupMosaic();
+  }, []);
 
   return (
     <>
-        <h1>Mosaic Component</h1>
+      <Count
+        coordinator={coordinator()}
+        table={TABLE_NAME}
+        selection={selection}
+      />
 
-        <Count coordinator={coordinator()} table={TABLE_NAME} selection={selection} />
+      {/* only render when selection is set */}
+      {selection && (
+        <div>
+          <AddPlot
+            coordinator={coordinator()}
+            table={TABLE_NAME}
+            selection={selection}
+            addPlot={addPlot}
+          />
+
+          {/* <ScatterPlot
+            coordinator={coordinator()}
+            table={TABLE_NAME}
+            selection={selection}
+            xAxis={"Centroids_RAW_X"}
+            yAxis={"Centroids_RAW_Y"}
+            plotId={"scatter-plot-1"}
+            removePlot={removePlot}
+          /> */}
+        </div>
+      )}
+
+      {plots.map((plotConfig, index) => (
+        <div key={plotConfig.plotId || index}>
+          <ScatterPlot
+            coordinator={coordinator()}
+            table={TABLE_NAME}
+            selection={selection}
+            xAxis={plotConfig.xAxis}
+            yAxis={plotConfig.yAxis}
+            plotId={plotConfig.plotId}
+            removePlot={removePlot}
+          />
+        </div>
+      ))}
     </>
-  )
+  );
 }
 
-export default Mosaic
+export default Mosaic;
