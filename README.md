@@ -47,6 +47,9 @@ open the index page of this app:
 
     $ omero config append omero.web.ui.top_links '["OMERO Parade 2", "omero_parade2_index", {"title": "Open OMERO Parade 2 in new tab", "target": "_blank"}]'
 
+Open-with config:
+
+    $ omero config append omero.web.open_with '["Parade 2", "omero_parade2_index", {"supported_objects": ["project", "dataset", "image", "screen", "plate"]}]'
 
 Now restart your `omero-web` server and go to
 <http://localhost:4080/omero_parade2/> in your browser.

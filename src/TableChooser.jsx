@@ -16,6 +16,7 @@ function TableChooser(props) {
   const screenId = params.get("screen");
   const plateId = params.get("plate");
   const projectId = params.get("project");
+  const imageId = params.get("image");
   const csv = params.get("csv");
 
   // dialog state
@@ -70,6 +71,8 @@ function TableChooser(props) {
           annUrl = url + `&plate=${plateId}`;
         } else if (screenId) {
           annUrl = url + `&screen=${screenId}`;
+        } else if (imageId) {
+          annUrl = url + `&image=${imageId}`;
         }
         // else if (csv) {
         //   url = csv;
