@@ -3,25 +3,74 @@ import omeLogo from "./assets/ome-logomark.svg";
 import "./App.css";
 import Mosaic from "./Mosaic";
 import TableChooser from "./TableChooser";
+import NavBar from "./NavBar";
 
 function App() {
-
   // state to hold the selected table URL
   const [tableUrl, setTableUrl] = useState(null);
+
+  const styles = {
+    main: {
+      flex: "1 1 auto",
+      display: "flex",
+      flexDirection: "row",
+      background: "#f6f6f6",
+    },
+    center: {
+      flex: "1 1 auto",
+      display: "flex",
+      flexDirection: "column",
+    },
+    sidebar: {
+      flex: "0 0 350px",
+      overflow: "auto",
+      padding: "15px",
+      fontSize: "14px",
+      backgroundColor: "#fff",
+      borderLeft: "solid #333 1px",
+      boxSizing: "border-box",
+    },
+    plots: {
+      flex: "1 1 auto",
+      height: "200px",
+      overflow: "auto",
+    },
+    footer: {
+      flex: "0 0 auto",
+      height: "300px",
+      background: "#fff",
+      borderRadius: "10px",
+      float: "left",
+      boxSizing: "border-box",
+      overflow: "auto",
+      margin: "10px",
+      padding: "10px",
+      position: "relative",
+    },
+  };
 
   return (
     <>
       <TableChooser setTableUrl={setTableUrl} />
-      <h1><img
-          src={omeLogo}
-          className="logo"
-          alt="OME logo"
-        />OMERO parade 2</h1>
 
-      <p>Table URL: {tableUrl} </p>
+      <NavBar />
 
-      {/* For now, don't load Mosaic till we have tableUrl */}
-      {tableUrl && <Mosaic tableUrl={tableUrl} />}
+      {/* main content */}
+      <div style={styles.main}>
+        <div style={styles.center}>
+          <div style={styles.plots}>
+            <p>Table URL: {tableUrl} </p>
+
+            {/* For now, don't load Mosaic till we have tableUrl */}
+            {tableUrl && <Mosaic tableUrl={tableUrl} />}
+          </div>
+          <div style={styles.footer}>
+            Footer
+          </div>
+        </div>
+
+        <div style={styles.sidebar}></div>
+      </div>
     </>
   );
 }
