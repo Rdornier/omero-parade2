@@ -34,7 +34,8 @@ export function BarChart(props) {
             sort: {y: "-x", limit: 20}
         }
         ),
-        vg.intervalY({ as: selection }),
+        vg.toggleY({ as: selection }),
+        vg.xyDomain(vg.Fixed),
         vg.xLabel("Count"),
         vg.yLabel(yaxis),
         vg.yLabelAnchor("top"),
