@@ -58,6 +58,15 @@ export function AddPlot(props) {
 
   return (
     <div style={{ margin: "5px 15px" }}>
+      <label>Plot:</label>
+      <select id="plot-select">
+        {numberColNames.map((colName) => (
+          <option key={colName} value={colName}>
+            {colName}
+          </option>
+        ))}
+      </select>     
+
       <label>X-axis:</label>
       <select id="xaxis-select">
         {numberColNames.map((colName) => (
@@ -87,6 +96,29 @@ export function AddPlot(props) {
       >
         Add Scatter Plot
       </button>
+    
+      <button
+        style={syles.button}
+        onClick={() => {
+          let plotId = `histogram-${Date.now()}`;
+          const xAxis = document.getElementById("xaxis-select").value;
+          addPlot({ xAxis, plotId, type: "histogram" });
+        }}
+      >
+        Add Histogram
+      </button>
+    
+      <button
+        style={syles.button}
+        onClick={() => {
+          let plotId = `bar-chart-${Date.now()}`;
+          const yAxis = document.getElementById("yaxis-select").value;
+          addPlot({ yAxis, plotId, type: "bar" });
+        }}
+      >
+        Add Bar Chart
+      </button>
+
     </div>
   );
 }
