@@ -184,13 +184,12 @@ select {
 .tabs{
     display: flex;
     flex-direction: row;
-    /* position: relative; */
+    position: relative;
 }
 
 .tabs .tab{
     float: left;
     display: block;
-    position: relative;
 }
 
 .tabs .tab>input[type="radio"] {
@@ -214,10 +213,7 @@ select {
     width: 100%;
     padding: 25px;
     position: absolute;
-    top: 27px;
     left: 0;
-    /* background: #303030; */
-    /* color: #DFDFDF; */
     box-sizing: border-box;
     border-top: solid lightgrey 1px;
     opacity:0;
