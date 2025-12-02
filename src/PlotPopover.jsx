@@ -135,7 +135,7 @@ export function AddPlot(props) {
                         style={syles.button}
                         onClick={() => {
                         let plotId = `histogram-${Date.now()}`;
-                        const xAxis = document.getElementById("xaxis").value;
+                        const xAxis = document.getElementById("histogramAxis").value;
                         addPlot({ xAxis, plotId, type: "histogram" });
                         }}
                     >
@@ -164,7 +164,7 @@ export function AddPlot(props) {
                         style={syles.button}
                         onClick={() => {
                         let plotId = `bar-chart-${Date.now()}`;
-                        const yAxis = document.getElementById("yaxis").value;
+                        const yAxis = document.getElementById("stringCols").value;
                         addPlot({ yAxis, plotId, type: "bar" });
                         }}
                     >
