@@ -65,7 +65,9 @@ export function AddPlot(props) {
     {/* Popover Button */}
     <div id="controls" className="hidden">
       <h1 style={{margin: "0 20px", fontSize: "27px", fontWeight: "200"}}>Parade</h1>
-      <button popoverTarget="addPlotDialog">Add Plot</button>
+      <button className="add" popoverTarget="addPlotDialog">
+        Add Plot
+      </button>
       <div style={{flexGrow: "1"}}></div>
     </div>
 
@@ -103,6 +105,7 @@ export function AddPlot(props) {
                 <p style={{textAlign: "right"}}>
                     <button
                         style={syles.button}
+                        className="add"
                         onClick={() => {
                         let plotId = `scatter-plot-${Date.now()}`;
                         const xAxis = document.getElementById("xaxis").value;
@@ -133,6 +136,7 @@ export function AddPlot(props) {
                 <p style={{textAlign: "right"}}>
                     <button
                         style={syles.button}
+                        className="add"
                         onClick={() => {
                         let plotId = `histogram-${Date.now()}`;
                         const xAxis = document.getElementById("histogramAxis").value;
@@ -162,6 +166,7 @@ export function AddPlot(props) {
                 <p style={{textAlign: "right"}}>
                     <button
                         style={syles.button}
+                        className="add"
                         onClick={() => {
                         let plotId = `bar-chart-${Date.now()}`;
                         const yAxis = document.getElementById("stringCols").value;

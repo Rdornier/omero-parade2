@@ -141,7 +141,6 @@ body {
 }
 
 button {
-  background: darkgreen;
   border: none;
   border-radius: 10px;
   color: white;
@@ -153,11 +152,14 @@ button {
 button.close {
   background: darkblue;
 }
+button.add {
+  background: darkgreen;
+}
 
 button.x, button.remove {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
   width: 30px;
   height: 30px;
   padding: 0;

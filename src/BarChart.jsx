@@ -76,11 +76,14 @@ export function BarChart(props) {
   return (
     <>
       <button
+        title="Remove Plot"
+        popoverTarget="addPlotDialog"
+        className="x"
         onClick={() => {
           removePlot(plotId);
         }}
       >
-        Remove Plot
+        ×
       </button>
       <div ref={myRef}></div>
     </>

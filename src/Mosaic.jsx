@@ -23,6 +23,7 @@ const plotStyle = {
   padding: "10px",
   borderRadius: "10px",
   background: "#fff",
+  position: "relative",
 }
 
 function Mosaic(props) {
